@@ -18,37 +18,37 @@ public class ValidatorTest {
     @Test
     public void isNotPasswordPass(){
         pass = "notTheWordPassword";
-        assertEquals(validator.validate(pass), 2);
+        assertEquals(validator.validate(pass), 3);
     }
 
     @Test
     public void isNotPasswordFail(){
         pass = "password";
-        assertEquals(validator.validate(pass), 1);
+        assertEquals(validator.validate(pass), 2);
     }
 
     @Test
     public void isNotPasswordFailCaseDifferences(){
         pass = "PassWOrd";
-        assertEquals(validator.validate(pass), 1);
+        assertEquals(validator.validate(pass), 2);
     }
 
     @Test
     public void atLeast8CharLong(){
         pass = "OverEightCharacters";
-        assertEquals(validator.validate(pass), 2);
+        assertEquals(validator.validate(pass), 3);
     }
 
     @Test
     public void exactly8CharLong(){
         pass = "12345678";
-        assertEquals(validator.validate(pass), 2);
+        assertEquals(validator.validate(pass), 4);
     }
 
     @Test
     public void lessThan8CharLong(){
         pass = "aaa";
-        assertEquals(validator.validate(pass), 1);
+        assertEquals(validator.validate(pass), 2);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class ValidatorTest {
     @Test
     public void atLeastOneNumber(){
         pass = "1abc";
-        assertEquals(validator.validate(pass), 2);
+        assertEquals(validator.validate(pass), 3);
     }
 
     @Test
