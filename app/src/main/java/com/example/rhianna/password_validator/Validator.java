@@ -2,7 +2,7 @@ package com.example.rhianna.password_validator;
 
 public class Validator {
 
-    boolean rule1, rule2, rule3, rule4, rule5 = false;
+    boolean rule1 =false, rule2=false, rule3=false, rule4=false, rule5 = false;
 
     public Validator(){}
 
