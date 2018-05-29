@@ -16,6 +16,12 @@ public class Validator {
             rulesPassed++;
         }
 
+        //Rule 3: The password contains at least one of these special characters !, @, # or $.
+
+        //Rule 4: The password is not longer than 20 characters.
+
+        //Rule 5: The password contains at least 1 number.
+
         return rulesPassed;
     }
 

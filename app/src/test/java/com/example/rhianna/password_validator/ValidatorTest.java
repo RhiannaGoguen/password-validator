@@ -51,4 +51,27 @@ public class ValidatorTest {
         assertEquals(validator.validate(pass), 1);
     }
 
+    @Test
+    public void contains1SpecialCharacter(){
+        pass = "!";
+        assertEquals(validator.validate(pass), 3);
+    }
+
+    @Test
+    public void moreThan20CharsFails(){
+        pass = "ThisPasswordIsSuperDuperLong";
+        assertEquals(validator.validate(pass), 2);
+    }
+
+    @Test
+    public void atLeastOneNumber(){
+        pass = "1abc";
+        assertEquals(validator.validate(pass), 2);
+    }
+
+    @Test
+    public void passesAllRules(){
+        pass = "ef@m73rk402";
+        assertEquals(validator.validate(pass), 5);
+    }
 }
