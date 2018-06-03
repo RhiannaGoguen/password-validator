@@ -3,10 +3,8 @@ package com.example.rhianna.password_validator;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static junit.framework.Assert.*;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -25,42 +23,49 @@ public class UI_Test {
         //saying the password is "Strong"
     @Test
     public void goodPassword(){
-        fail();
+        onView(withId(R.id.input))
+                .perform(typeText("123goodPassword@!"), closeSoftKeyboard());
+        onView(withId(R.id.validatePassButton)).perform(click());
+
+        // Check that the text was changed.
+        onView(withId(R.id.output)).check(matches(withText("Strong")));
     }
 
     //Test 2: Want to write a bad password, failing 1 rule, click button,
         //and receive feedback saying the password is "Almost Strong Enough"
     @Test
     public void failOneRule(){
-        fail();
+        onView(withId(R.id.input))
+                .perform(typeText("123goodPassword"), closeSoftKeyboard());
+        onView(withId(R.id.validatePassButton)).perform(click());
+
+        // Check that the text was changed.
+        onView(withId(R.id.output)).check(matches(withText("Almost Strong Enough")));
+
     }
 
     //Test 3: Want to write a bad password, failing 2 rules, click button,
-        //and receive feedback saying the password is "Slightly Weak"
-    @Test
-    public void failTwoRules(){
-        fail();
-    }
-
-    //Test 4 Want to write a bad password, failing 3 rules, click button,
         //and receive feedback saying the password is "Weak"
     @Test
-    public void failThreeRules(){
-        fail();
+    public void failTwoRules(){
+        onView(withId(R.id.input))
+                .perform(typeText("goodPassword"), closeSoftKeyboard());
+        onView(withId(R.id.validatePassButton)).perform(click());
+
+        // Check that the text was changed.
+        onView(withId(R.id.output)).check(matches(withText("Weak")));
     }
 
-    //Test 5: Want to write a bad password, failing 4 rules, click button,
+    //Test 4: Want to write a bad password, failing 3 or more rules, click button,
         //and receive feedback saying the password is "Very Weak"
     @Test
-    public void failFourRules(){
-        fail();
-    }
+    public void failThreeOrMoreRules(){
+        onView(withId(R.id.input))
+                .perform(typeText("abc"), closeSoftKeyboard());
+        onView(withId(R.id.validatePassButton)).perform(click());
 
-    //Test 6: Want to write a bad password, failing 5 rules, click button,
-        //and receive feedback saying the password is "Extremely Weak"
-    @Test
-    public void failAllRules(){
-        fail();
+        // Check that the text was changed.
+        onView(withId(R.id.output)).check(matches(withText("Very Weak")));
     }
 
 }
