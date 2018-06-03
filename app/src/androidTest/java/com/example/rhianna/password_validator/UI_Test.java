@@ -1,8 +1,9 @@
 package com.example.rhianna.password_validator;
 
-import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import android.support.test.rule.ActivityTestRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -15,23 +16,31 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-
 @RunWith(AndroidJUnit4.class)
 public class UI_Test {
 
-    //Test 1: Want to write good password, click button, and receive feedback
+    @Rule
+    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
+
+        //Test 1: See that the default text in the output box is correct.
+        @Test
+        public void checkDefaultText(){
+
+            onView(withId(R.id.output)).check(matches(withText("This will be where your password strength is outputted.")));
+        }
+
+        //Test 2: Want to write good password, click button, and receive feedback
         //saying the password is "Strong"
-    @Test
-    public void goodPassword(){
+        @Test
+        public void goodPassword(){
         onView(withId(R.id.input))
                 .perform(typeText("123goodPassword@!"), closeSoftKeyboard());
         onView(withId(R.id.validatePassButton)).perform(click());
 
-        // Check that the text was changed.
         onView(withId(R.id.output)).check(matches(withText("Strong")));
     }
 
-    //Test 2: Want to write a bad password, failing 1 rule, click button,
+    //Test 3: Want to write a bad password, failing 1 rule, click button,
         //and receive feedback saying the password is "Almost Strong Enough"
     @Test
     public void failOneRule(){
@@ -39,12 +48,11 @@ public class UI_Test {
                 .perform(typeText("123goodPassword"), closeSoftKeyboard());
         onView(withId(R.id.validatePassButton)).perform(click());
 
-        // Check that the text was changed.
         onView(withId(R.id.output)).check(matches(withText("Almost Strong Enough")));
 
     }
 
-    //Test 3: Want to write a bad password, failing 2 rules, click button,
+    //Test 4: Want to write a bad password, failing 2 rules, click button,
         //and receive feedback saying the password is "Weak"
     @Test
     public void failTwoRules(){
@@ -52,11 +60,10 @@ public class UI_Test {
                 .perform(typeText("goodPassword"), closeSoftKeyboard());
         onView(withId(R.id.validatePassButton)).perform(click());
 
-        // Check that the text was changed.
         onView(withId(R.id.output)).check(matches(withText("Weak")));
     }
 
-    //Test 4: Want to write a bad password, failing 3 or more rules, click button,
+    //Test 5: Want to write a bad password, failing 3 or more rules, click button,
         //and receive feedback saying the password is "Very Weak"
     @Test
     public void failThreeOrMoreRules(){
@@ -64,8 +71,15 @@ public class UI_Test {
                 .perform(typeText("abc"), closeSoftKeyboard());
         onView(withId(R.id.validatePassButton)).perform(click());
 
-        // Check that the text was changed.
         onView(withId(R.id.output)).check(matches(withText("Very Weak")));
+    }
+
+    //Test 6: Want to click button with no input in the box, see that
+    @Test
+    public void noInput(){
+        onView(withId(R.id.validatePassButton)).perform(click());
+
+        onView(withId(R.id.output)).check(matches(withText("Please enter a password into the box below.")));
     }
 
 }
