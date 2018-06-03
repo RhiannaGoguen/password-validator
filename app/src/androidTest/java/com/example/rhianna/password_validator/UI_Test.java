@@ -41,14 +41,14 @@ public class UI_Test {
     }
 
     //Test 3: Want to write a bad password, failing 1 rule, click button,
-        //and receive feedback saying the password is "Almost Strong Enough"
+        //and receive feedback saying the password is "Moderate"
     @Test
     public void failOneRule(){
         onView(withId(R.id.input))
                 .perform(typeText("123goodPassword"), closeSoftKeyboard());
         onView(withId(R.id.validatePassButton)).perform(click());
 
-        onView(withId(R.id.output)).check(matches(withText("Almost Strong Enough")));
+        onView(withId(R.id.output)).check(matches(withText("Moderate")));
 
     }
 
@@ -74,12 +74,28 @@ public class UI_Test {
         onView(withId(R.id.output)).check(matches(withText("Very Weak")));
     }
 
-    //Test 6: Want to click button with no input in the box, see that
+    //Test 6: Want to click button with no input in the box, see that correct text is displayed.
     @Test
     public void noInput(){
         onView(withId(R.id.validatePassButton)).perform(click());
 
         onView(withId(R.id.output)).check(matches(withText("Please enter a password into the box below.")));
+    }
+
+    //Test 7: Want to click button with no input in the box, see that
+    @Test
+    public void twoValidations(){
+        onView(withId(R.id.input))
+                .perform(typeText("abc"), closeSoftKeyboard());
+        onView(withId(R.id.validatePassButton)).perform(click());
+
+        onView(withId(R.id.output)).check(matches(withText("Very Weak")));
+
+        onView(withId(R.id.input))
+                .perform(typeText("123!@"), closeSoftKeyboard());
+        onView(withId(R.id.validatePassButton)).perform(click());
+
+        onView(withId(R.id.output)).check(matches(withText("Strong")));
     }
 
 }
